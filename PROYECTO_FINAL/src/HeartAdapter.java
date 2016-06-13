@@ -14,7 +14,7 @@ public class HeartAdapter implements BeatModelInterface {
     public void off() {}
    
 	public int getBPM() {
-		return heart.getBPM();//heart.getHeartRate();
+		return heart.getHeartRate();
 	}
   
     public void setBPM(int bpm) {}
@@ -34,6 +34,4 @@ public class HeartAdapter implements BeatModelInterface {
 	public void removeObserver(BPMObserver o) {
 		heart.removeObserver(o);
 	}
-
-	
 }

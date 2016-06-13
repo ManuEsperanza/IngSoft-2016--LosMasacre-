@@ -3,7 +3,7 @@
 public class HeartTestDrive {
 
     public static void main (String[] args) {
-		HeartModel heartModel = HeartModel.getInstance();
+		HeartModel heartModel = new HeartModel();
         ControllerInterface model = new HeartController(heartModel);
     }
 }
