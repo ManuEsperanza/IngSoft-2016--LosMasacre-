@@ -167,3 +167,4 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		}
 	}
 }
+

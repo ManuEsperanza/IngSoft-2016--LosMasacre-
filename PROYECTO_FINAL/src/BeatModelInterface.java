@@ -18,4 +18,6 @@ public interface BeatModelInterface {
 	void registerObserver(BPMObserver o);
   
 	void removeObserver(BPMObserver o);
+	
+	
 }
