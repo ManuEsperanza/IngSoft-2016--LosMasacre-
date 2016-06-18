@@ -1,12 +1,10 @@
-//package headfirst.combined.djview;
-    
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class DJView implements ActionListener,  BeatObserver, BPMObserver {
-	BeatModelInterface model;
-	ControllerInterface controller;
+public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver {
+	AfinadorModelInterface model;
+	InterfazControlador controller;
     JFrame viewFrame;
     JPanel viewPanel;
 	BeatBar beatBar;
@@ -23,7 +21,7 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
     JMenuItem startMenuItem;
     JMenuItem stopMenuItem;
 
-    public DJView(ControllerInterface controller, BeatModelInterface model) {	
+    public AfinadorVista(InterfazControlador controller, AfinadorModelInterface model) {	
 		this.controller = controller;
 		this.model = model;
 		model.registerObserver((BeatObserver)this);
@@ -36,10 +34,11 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
         viewFrame = new JFrame("View");
         viewFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         viewFrame.setSize(new Dimension(100, 80));
-        bpmOutputLabel = new JLabel("offline", SwingConstants.CENTER);
-		beatBar = new BeatBar();
+        bpmOutputLabel = new JLabel("APAGADO ", SwingConstants.CENTER);
+		
+        beatBar = new BeatBar();
 		beatBar.setValue(0);
-        JPanel bpmPanel = new JPanel(new GridLayout(2, 1));
+        JPanel bpmPanel = new JPanel(new GridLayout(20, 10));
 		bpmPanel.add(beatBar);
         bpmPanel.add(bpmOutputLabel);
         viewPanel.add(bpmPanel);
@@ -64,14 +63,16 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
         menu.add(startMenuItem);
         startMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                controller.start();
+                controller.start1();
+                updateBPM();
             }
         });
         stopMenuItem = new JMenuItem("Stop");
         menu.add(stopMenuItem); 
         stopMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                controller.stop();
+                controller.stop1();
+                
             }
         });
         JMenuItem exit = new JMenuItem("Quit");
@@ -144,21 +145,42 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		} else if (event.getSource() == decreaseBPMButton) {
 			controller.decreaseBPM();
 		}
+		  
     }
 
 	public void updateBPM() {
-		if (model != null) {
-			int bpm = model.getBPM();
-			if (bpm == 0) {
-				if (bpmOutputLabel != null) {
-        			bpmOutputLabel.setText("offline");
-				}
-			} else {
-				if (bpmOutputLabel != null) {
-        			bpmOutputLabel.setText("Current BPM: " + model.getBPM());
-				}
-			}
-		}
+		int nota = model.getBPM();
+		
+		switch (nota) {                
+            case (0): 
+            	bpmOutputLabel.setText("NOTA: DO | FRECUENCIA : 261 Hz");
+            break;
+        
+            case (1): 
+            	bpmOutputLabel.setText("NOTA: RE | FRECUENCIA : 293 Hz");
+            break;
+        
+            case (2):
+            	bpmOutputLabel.setText("NOTA: MI | FRECUENCIA : 329 Hz");
+            break;
+        
+            case (3):
+            	bpmOutputLabel.setText("NOTA: FA | FRECUENCIA : 349 Hz");
+            break;
+            
+            case (4):
+            	bpmOutputLabel.setText("NOTA: SOL | FRECUENCIA : 391 Hz");
+            break;
+            
+            case (5):
+            	bpmOutputLabel.setText("NOTA: LA (REFERENCIA PARA AFINAR) | FRECUENCIA : 440 Hz");
+            break;
+            
+            case (6):
+            	bpmOutputLabel.setText("NOTA: SI | FRECUENCIA : 493 Hz");
+            break;
+        
+            }
 	}
   
 	public void updateBeat() {
@@ -167,4 +189,3 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		}
 	}
 }
-

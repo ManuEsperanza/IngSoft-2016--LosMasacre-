@@ -6,7 +6,7 @@ public interface HeartModelInterface {
 	void removeObserver(BeatObserver o);
 	void registerObserver(BPMObserver o);
 	void removeObserver(BPMObserver o);
-
+	
 	int getBPM();
 	public void setBPM(int contador);
 }

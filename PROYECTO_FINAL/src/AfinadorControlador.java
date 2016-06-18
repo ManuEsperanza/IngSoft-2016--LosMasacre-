@@ -1,7 +1,13 @@
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
-public class AfinadorControlador implements ControllerInterface {
-    AfinadorModelInterface modelo;
+public class AfinadorControlador implements ControllerInterface, InterfazControlador {
+    
+	AfinadorModelInterface modelo;
     DJView vista;
+    
+    AfinadorVista vista1;
+    int i;
     public static int iniciado = 0;
     
     public AfinadorControlador(AfinadorModelInterface modelo) {
@@ -14,10 +20,28 @@ public class AfinadorControlador implements ControllerInterface {
         modelo.initialize();
     }
     
+    public AfinadorControlador(AfinadorModelInterface modelo, int i){
+    	this.i = i;
+    	this.modelo = modelo;
+    	vista1 = new AfinadorVista(this,modelo);
+    	vista1.createView();
+        vista1.createControls();
+        vista1.disableStopMenuItem();
+        vista1.enableStartMenuItem();
+        modelo.initialize();
+    }
+    
     public void start(){
         modelo.on();
         vista.disableStartMenuItem();
         vista.enableStopMenuItem();
+        iniciado = 1;
+    };
+    
+    public void start1(){
+        modelo.on();
+        vista1.disableStartMenuItem();
+        vista1.enableStopMenuItem();
         iniciado = 1;
     };
     
@@ -26,6 +50,14 @@ public class AfinadorControlador implements ControllerInterface {
         vista.disableStopMenuItem();
         vista.enableStartMenuItem();
         iniciado = 0;
+    };
+    
+    public void stop1(){
+        modelo.off();
+        vista1.disableStopMenuItem();
+        vista1.enableStartMenuItem();
+        iniciado = 0;
+        vista1.bpmOutputLabel.setText("APAGADO ");
     };
     
     public void increaseBPM(){

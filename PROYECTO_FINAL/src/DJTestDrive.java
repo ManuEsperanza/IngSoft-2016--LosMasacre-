@@ -2,8 +2,8 @@
   
 public class DJTestDrive {
 
-    public static void main (String[] args) {
+    public static void main (String[] args) throws Exception {
         BeatModelInterface model = new BeatModel();
-		ControllerInterface controller = new BeatController(model);
+        ControllerInterface controller = new BeatController(model);
     }
 }

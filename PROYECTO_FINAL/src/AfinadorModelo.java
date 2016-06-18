@@ -27,9 +27,13 @@ public class AfinadorModelo implements AfinadorModelInterface {
     
     public void setBPM(int nota) {
         this.nota = nota;
+        
+        
         if (AfinadorControlador.iniciado == 1){
+        	notifyBPMObservers();
         	this.afinaInstrumento(opcion);
         	notifyBeatObservers();
+        	
         }
         
     }

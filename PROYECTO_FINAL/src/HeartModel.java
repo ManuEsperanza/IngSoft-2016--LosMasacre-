@@ -9,12 +9,16 @@ public class HeartModel implements HeartModelInterface, Runnable {
     int bpm = 90;
 	Random random = new Random(System.currentTimeMillis());
 	Thread thread;
+	
+	public static int contador = 0;			
+	private static HeartModel uniqueInstance;	
 
+	
 	public HeartModel() {
 		thread = new Thread(this);
 		thread.start();
 	}
-
+	
 	public static HeartModel getInstance(){
 		if (uniqueInstance == null){
 			uniqueInstance = new HeartModel();
@@ -28,7 +32,6 @@ public class HeartModel implements HeartModelInterface, Runnable {
 			return uniqueInstance;
 		}
 	}
-	
 
 	public void run() {
 		int lastrate = -1;
@@ -58,8 +61,7 @@ public class HeartModel implements HeartModelInterface, Runnable {
 
 	public void registerObserver(BeatObserver o) {
 		beatObservers.add(o);
-                System.out.println("registrando observador");
-        }
+	}
 
 	public void removeObserver(BeatObserver o) {
 		int i = beatObservers.indexOf(o);

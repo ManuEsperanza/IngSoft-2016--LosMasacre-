@@ -5,13 +5,13 @@ import java.util.*;
 
 public class BeatModel implements BeatModelInterface, MetaEventListener {
     Sequencer sequencer;
-    ArrayList beatObservers = new ArrayList();
-    ArrayList bpmObservers = new ArrayList();
+	ArrayList beatObservers = new ArrayList();
+	ArrayList bpmObservers = new ArrayList();
     int bpm = 90;
     Sequence sequence;
     Track track;
  
-    public void initialize() {
+	public void initialize() {
         setUpMidi();
         buildTrackAndStart();
 	}
@@ -23,69 +23,67 @@ public class BeatModel implements BeatModelInterface, MetaEventListener {
     }
  
     public void off() {
-        setBPM(0);
-        sequencer.stop();
+		setBPM(0);
+		sequencer.stop();
     }
  
     public void setBPM(int bpm) {
-	this.bpm = bpm;
+		this.bpm = bpm;
 
-	//FIX
-	sequencer.setMicrosecondPosition(0);
+		//FIX
+		sequencer.setMicrosecondPosition(0);
         sequencer.setTickPosition(0) ; 
             
-	sequencer.setTempoInBPM(getBPM());
-	notifyBPMObservers();
+		sequencer.setTempoInBPM(getBPM());
+		notifyBPMObservers();
     }
   
 	public int getBPM() {
-            return bpm;
+		return bpm;
 	}
   
 	void beatEvent() {
-            notifyBeatObservers();
+		notifyBeatObservers();
 	}
   
    
 	public void registerObserver(BeatObserver o) {
-            beatObservers.add(o);
-            System.out.println("registrando observador de beat");
-        }
+		beatObservers.add(o);
+	}
   
 	public void notifyBeatObservers() {
-            for(int i = 0; i < beatObservers.size(); i++) {
-		BeatObserver observer = (BeatObserver)beatObservers.get(i);
-		observer.updateBeat();
-            }
+		for(int i = 0; i < beatObservers.size(); i++) {
+			BeatObserver observer = (BeatObserver)beatObservers.get(i);
+			observer.updateBeat();
+		}
 	}
   
 	public void registerObserver(BPMObserver o) {
-            bpmObservers.add(o);
-            System.out.println("registrando observador de bpm");
-        }
+		bpmObservers.add(o);
+	}
   
 	public void notifyBPMObservers() {
-            for(int i = 0; i < bpmObservers.size(); i++) {
-                BPMObserver observer = (BPMObserver)bpmObservers.get(i);
-		observer.updateBPM();
-            }
+		for(int i = 0; i < bpmObservers.size(); i++) {
+			BPMObserver observer = (BPMObserver)bpmObservers.get(i);
+			observer.updateBPM();
+		}
 	}
 
 
 	public void removeObserver(BeatObserver o) {
-            int i = beatObservers.indexOf(o);
-            if (i >= 0) {
-                beatObservers.remove(i);
-            }
+		int i = beatObservers.indexOf(o);
+		if (i >= 0) {
+			beatObservers.remove(i);
+		}
 	}
 
 
 
 	public void removeObserver(BPMObserver o) {
-            int i = bpmObservers.indexOf(o);
-            if (i >= 0) {
-                bpmObservers.remove(i);
-            }
+		int i = bpmObservers.indexOf(o);
+		if (i >= 0) {
+			bpmObservers.remove(i);
+		}
 	}
 
 
@@ -162,4 +160,6 @@ public class BeatModel implements BeatModelInterface, MetaEventListener {
 		}
         return event;
     }
+
+	
 }
