@@ -15,6 +15,21 @@ public class HeartModel implements HeartModelInterface, Runnable {
 		thread.start();
 	}
 
+	public static HeartModel getInstance(){
+		if (uniqueInstance == null){
+			uniqueInstance = new HeartModel();
+			contador = 1;
+			System.out.println("Creando la primera instancia de Heartmodel");
+                        return uniqueInstance;
+		}
+		else{
+			System.out.println("Intentando crear una instancia de Heartmodel");
+                        contador++;
+			return uniqueInstance;
+		}
+	}
+	
+
 	public void run() {
 		int lastrate = -1;
 
@@ -76,5 +91,14 @@ public class HeartModel implements HeartModelInterface, Runnable {
 			BPMObserver observer = (BPMObserver)bpmObservers.get(i);
 			observer.updateBPM();
 		}
+	}
+
+	public int getBPM() {
+            return contador;
+	}
+	
+	public void setBPM(int contador){
+            this.contador = contador;
+            notifyBPMObservers();
 	}
 }
