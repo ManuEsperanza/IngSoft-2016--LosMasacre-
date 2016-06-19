@@ -1,58 +1,100 @@
-//package headfirst.combined.djview;
-    
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class DJView implements ActionListener,  BeatObserver, BPMObserver {
-	BeatModelInterface model;
-	ControllerInterface controller;
-    JFrame viewFrame;
-    JPanel viewPanel;
-	BeatBar beatBar;
-	JLabel bpmOutputLabel;
-    JFrame controlFrame;
-    JPanel controlPanel;
-    JLabel bpmLabel;
-    JTextField bpmTextField;
-    JButton setBPMButton;
-    JButton increaseBPMButton;
-    JButton decreaseBPMButton;
-    JMenuBar menuBar;
-    JMenu menu;
-    JMenuItem startMenuItem;
-    JMenuItem stopMenuItem;
 
-    public DJView(ControllerInterface controller, BeatModelInterface model) {	
-		this.controller = controller;
-		this.model = model;
-		model.registerObserver((BeatObserver)this);
-		model.registerObserver((BPMObserver)this);
+
+public class StrategyVista extends DJView {
+    StrategyVista StrategyVistavista = this;
+    String [] modelos = {"","Beat Model","Heart Model","Afinador Modelo"};
+
+    public StrategyVista(ControllerInterface controller, BeatModelInterface model) {
+        super(controller, model);
+    }
+    public StrategyVista(){
+        super();
+        this.CreateView();
     }
     
-    public DJView() {
-    }
-    
-    public void createView() {
-		// Create all Swing components here
+    public void CreateView(){
         viewPanel = new JPanel(new GridLayout(1, 2));
         viewFrame = new JFrame("View");
         viewFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         viewFrame.setSize(new Dimension(100, 80));
-        bpmOutputLabel = new JLabel("offline", SwingConstants.CENTER);
+        bpmOutputLabel = new JLabel("ELIJA UN MODELO ", SwingConstants.CENTER);
 	beatBar = new BeatBar();
-	beatBar.setValue(0);
+        beatBar.setValue(0);
         JPanel bpmPanel = new JPanel(new GridLayout(2, 1));
-	bpmPanel.add(beatBar);
+	JComboBox listaModelos = new JComboBox(modelos);
+        bpmPanel.add(beatBar);
         bpmPanel.add(bpmOutputLabel);
+        bpmPanel.add(listaModelos);
         viewPanel.add(bpmPanel);
         viewFrame.getContentPane().add(viewPanel, BorderLayout.CENTER);
         viewFrame.pack();
         viewFrame.setVisible(true);
-	}
-  
-  
-    public void createControls() {
+        StrategyVistavista.createControls();
+        listaModelos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                String lista = (String) listaModelos.getSelectedItem();
+                
+                    if (lista == "Beat Model"){
+                         if(controller!=null) {
+                            controller.stop();
+                            model.removeObserver((BeatObserver)StrategyVistavista);
+                            model.removeObserver((BPMObserver)StrategyVistavista);
+                         }  
+                        BeatModel modelbeat = new BeatModel();
+                        BeatController controllerbeat = new BeatController(modelbeat,StrategyVistavista);
+                        setControlador(controllerbeat);
+                        setModelo(modelbeat);
+                        model.registerObserver((BeatObserver)StrategyVistavista);
+                        model.registerObserver((BPMObserver)StrategyVistavista);
+                    
+                    }   
+                    if(lista == "Heart Model"){
+                        if(controller!=null) {
+                            controller.stop();
+                            model.removeObserver((BeatObserver)StrategyVistavista);
+                            model.removeObserver((BPMObserver)StrategyVistavista);
+                         }
+                        HeartModel ModelHeart = HeartModel.getInstance();
+                        HeartController controllerHeart = new HeartController(ModelHeart,StrategyVistavista);    
+                        setControlador(controllerHeart);
+                        setModelo(new HeartAdapter(ModelHeart));
+                        model.registerObserver((BeatObserver)StrategyVistavista);
+                        model.registerObserver((BPMObserver)StrategyVistavista);                            
+                    }   
+                    if (lista == "Afinador Modelo"){
+                         if(controller!=null) {
+                            controller.stop();
+                            model.removeObserver((BeatObserver)StrategyVistavista);
+                            model.removeObserver((BPMObserver)StrategyVistavista);
+                         }
+                        AfinadorModelo modeloAfinador = new AfinadorModelo();
+                        AfinadorControlador controladorAfinador = new AfinadorControlador(modeloAfinador,1,StrategyVistavista);
+                        setControlador(controladorAfinador);
+                        setModelo(new AfinadorAdapter(modeloAfinador));
+                        model.registerObserver((BeatObserver)StrategyVistavista);
+                        model.registerObserver((BPMObserver)StrategyVistavista);
+                    }          
+                }        
+                
+        });
+        
+        
+   }
+   public void setControlador(ControllerInterface controller) {
+        this.controller = controller;
+    }
+
+   public void setModelo(BeatModelInterface model) {
+        this.model = model;
+    } 
+
+
+   public void createControls() {
 		// Create all Swing components here
         JFrame.setDefaultLookAndFeelDecorated(true);
         controlFrame = new JFrame("Control");
@@ -170,4 +212,3 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		}
 	}
 }
-

@@ -25,6 +25,7 @@ public class AfinadorModelo implements AfinadorModelInterface {
     int nota = 0;
     int opcion = 0;
     
+   
     public void setBPM(int nota) {
         this.nota = nota;
         

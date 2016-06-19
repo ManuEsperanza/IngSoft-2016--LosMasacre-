@@ -5,15 +5,23 @@ public class BeatController implements ControllerInterface {
 	DJView view;
    
 	public BeatController(BeatModelInterface model) {
-		this.model = model;
-		view = new DJView(this, model);
-        view.createView();
-        view.createControls();
-		view.disableStopMenuItem();
-		view.enableStartMenuItem();
-		model.initialize();
+            this.model = model;
+            view = new DJView(this, model);
+            view.createView();
+            view.createControls();
+            view.disableStopMenuItem();
+            view.enableStartMenuItem();
+            model.initialize();
 	}
-  
+        
+        public BeatController(BeatModelInterface model,StrategyVista view){
+            this.model = model;
+            this.view = view;
+            view.disableStopMenuItem();
+            view.enableStartMenuItem();
+            model.initialize();
+        }
+        
 	public void start() {
 		model.on();
 		view.disableStartMenuItem();

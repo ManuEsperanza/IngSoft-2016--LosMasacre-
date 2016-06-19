@@ -12,6 +12,13 @@ public class HeartController implements ControllerInterface {
         view.disableStopMenuItem();
         view.disableStartMenuItem();
     }
+    
+    public HeartController(HeartModelInterface model,StrategyVista view) {
+        this.model = model;
+        this.view = view;
+        view.disableStopMenuItem();
+	view.disableStartMenuItem();
+    }
   
     public void start() {}
  

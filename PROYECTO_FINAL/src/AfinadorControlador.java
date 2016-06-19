@@ -31,6 +31,14 @@ public class AfinadorControlador implements ControllerInterface, InterfazControl
         modelo.initialize();
     }
     
+    public AfinadorControlador(AfinadorModelInterface modelo, int i,StrategyVista view){
+        this.i = i;
+    	this.modelo = modelo;
+        this.vista = view;
+        vista.disableStopMenuItem();
+        vista.enableStartMenuItem();
+        modelo.initialize();
+    }
     public void start(){
         modelo.on();
         vista.disableStartMenuItem();
