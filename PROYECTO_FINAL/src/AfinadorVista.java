@@ -7,8 +7,8 @@ public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver
 	InterfazControlador controller;
     JFrame viewFrame;
     JPanel viewPanel;
-	BeatBar beatBar;
-	JLabel bpmOutputLabel;
+    BeatBar beatBar;
+    JLabel bpmOutputLabel;
     JFrame controlFrame;
     JPanel controlPanel;
     JLabel bpmLabel;
@@ -21,6 +21,12 @@ public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver
     JMenuItem startMenuItem;
     JMenuItem stopMenuItem;
 
+    //agregaciones a nuestro controlador:
+    JMenu menu1;
+    JMenuItem instrucciones;
+    JPanel PanelInstrucciones;
+    JFrame FrameInstrucciones;
+    JLabel manual,manual1;
     public AfinadorVista(InterfazControlador controller, AfinadorModelInterface model) {	
 		this.controller = controller;
 		this.model = model;
@@ -38,7 +44,7 @@ public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver
 		
         beatBar = new BeatBar();
 		beatBar.setValue(0);
-        JPanel bpmPanel = new JPanel(new GridLayout(20, 10));
+        JPanel bpmPanel = new JPanel(new GridLayout(2, 1));
 		bpmPanel.add(beatBar);
         bpmPanel.add(bpmOutputLabel);
         viewPanel.add(bpmPanel);
@@ -58,7 +64,27 @@ public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver
         controlPanel = new JPanel(new GridLayout(1, 2));
 
         menuBar = new JMenuBar();
-        menu = new JMenu("DJ Control");
+        menu = new JMenu("Opciones");
+        
+        menu1= new JMenu("Ayuda");
+        instrucciones = new JMenuItem("Instrucciones"); 
+        menu1.add(instrucciones);
+        instrucciones.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) { 
+                FrameInstrucciones = new JFrame("Instrucciones de Uso");
+                FrameInstrucciones.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                FrameInstrucciones.setSize(500,400);
+                FrameInstrucciones.setVisible(true);
+                JLabel label = new JLabel("My label");
+                label.setText("<html><body width=''><h1 align=\"center\">Afinador Musical</h1><p>Haga click en &quot;Opciones&quot; y luego en &quot;Start&quot; para iniciar la aplicación. <br/>"+
+                               " Donde dice &quot;Ingrese Nota &quot;, ingrese un valor de 0 a 6 donde:  <br/> <p></p>"+
+                               "<p align=\"center\">0 = DO</p>  <br/> <p align=\"center\"> 1 = RE </p> <br/> <p align=\"center\">2 = MI </p> <br/> <p align=\"center\">3 = FA </p> <br/>"+
+                               "<p align=\"center\">4 = SOL </p> <br/> <p align=\"center\"> 5 = LA (440hZ) </p> <br/> <p align=\"center\">6 = SI </p> <br/>"
+                               +"con los botones &quot;&lt;&lt;&quot; y &quot;&gt;&gt;&quot; puede cambiar de nota<br/> haga click en &quot;Opciones&quot;, luego en &quot;Stop&quot; para detener la aplicación.");
+                FrameInstrucciones.add(label);  
+            }
+        });
+        
         startMenuItem = new JMenuItem("Start");
         menu.add(startMenuItem);
         startMenuItem.addActionListener(new ActionListener() {
@@ -84,10 +110,14 @@ public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver
 
         menu.add(exit);
         menuBar.add(menu);
+        menuBar.add(menu1);
         controlFrame.setJMenuBar(menuBar);
-
+        
+        
+        
+        
         bpmTextField = new JTextField(2);
-        bpmLabel = new JLabel("Enter BPM:", SwingConstants.RIGHT);
+        bpmLabel = new JLabel("Ingrese Nota:", SwingConstants.RIGHT);
         setBPMButton = new JButton("Set");
         setBPMButton.setSize(new Dimension(10,40));
         increaseBPMButton = new JButton(">>");
@@ -118,6 +148,8 @@ public class AfinadorVista implements ActionListener,  BeatObserver, BPMObserver
 
         controlFrame.pack();
         controlFrame.setVisible(true);
+    
+        
     }
 
 	public void enableStopMenuItem() {
