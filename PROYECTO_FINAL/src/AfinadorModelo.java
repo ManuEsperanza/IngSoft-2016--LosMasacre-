@@ -22,7 +22,7 @@ public class AfinadorModelo implements AfinadorModelInterface {
     
     ArrayList beatObservers = new ArrayList();
     ArrayList bpmObservers = new ArrayList();
-    int nota = 0;
+    int nota = 5;
     int opcion = 0;
     
    
