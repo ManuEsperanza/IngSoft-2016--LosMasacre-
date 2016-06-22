@@ -12,7 +12,7 @@ public class AfinadorControlador implements ControllerInterface, InterfazControl
     
     public AfinadorControlador(AfinadorModelInterface modelo) {
         this.modelo = modelo;
-        vista = new DJView(this,new AfinadorAdapter(modelo)); //REVISAR SI NO ANDA
+        vista = new DJView(this,new AfinadorAdapter(modelo)); 
         vista.createView();
         vista.createControls();
         vista.disableStopMenuItem();
