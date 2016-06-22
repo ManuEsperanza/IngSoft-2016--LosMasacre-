@@ -49,7 +49,7 @@ public class AfinadorModeloTest {
     public void testGetBPM() {
         System.out.println("getBPM");
         AfinadorModelo instance = new AfinadorModelo();
-        int expResult = 0;
+        int expResult = 5;
         int result = instance.getBPM();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
